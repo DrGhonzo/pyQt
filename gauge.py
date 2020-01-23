@@ -2,31 +2,10 @@
 # -*- coding: utf-8 -*-
 # -*- coding: 850 -*-
 
-###
-# Author: Stefan Holstein
-# inspired by: https://github.com/Werkov/PyQt4/blob/master/examples/widgets/analogclock.py
-# Thanks to https://stackoverflow.com/
-#
-# Sorry for mixing english & german notes
-#
-# ToDo: Fix Bug: Rundungsfehler Max Value / Grid
-# ToDo: mehrere Zeiger ermöglichen. z.b. über ein ZeigerArray mit allen valiablen
-#       Signal erzeugung (self.valueChange.emit()) pruefen wie es dann möglich ist.
-#       Evtl MausTracking(Teil)-deaktivieren
-#       Farben separat handeln
-# todo: aktuell ist nur eine Zeigerrichtung klein nach gross im Uhrzeigersinn moeglich
-# -> erweiterung Anzeige von gross nach klein um Uhrzeigersin
-# todo: auf timer event verzichten um effizienz zu steigern
-#       self.update() an allen stellen einfügen, an denen es notwendig ist.
-#       It is possible to En-/disable timerevents. Use: self.use_timer_event = True/False
-# todo: Bug Fix: Offset Berechnung bezogen auf den Winkel ist falsch
-# Todo: print() in logging() ausgabe aendern
-###
-
 import math
 
 try:
-    # print("trying to import Qt4 @ analoggaugewidget.py")
+    
     from PyQt4.QtGui import QMainWindow
 
     from PyQt4.QtGui import QWidget
@@ -49,7 +28,7 @@ try:
 
 except:
     try:
-        # print("Try5: analoggaugewidget.py")
+        
         from PyQt5.QtWidgets import QMainWindow
 
         from PyQt5.QtWidgets import QWidget, QSizePolicy
@@ -67,15 +46,12 @@ except:
         # QtCore -> Qt.NoPen ,QTime, QTimer, QPoint, QPointF, QRect, QSize
 
         used_Qt_Version = 5
-        #print("end trying to import Qt5 @ analoggaugewidget.py")
+        
     except:
-        #print("Error Import Qt 4 & 5 @ analoggaugewidget.py")
+        
         exit()
 
 
-##########################################
-# todo: Dokumentieren
-##########################################
 
 class AnalogGauge(QWidget):
     """Fetches rows from a Bigtable.
@@ -192,9 +168,6 @@ class AnalogGauge(QWidget):
                                        [.6, Qt.green],
                                        [1, Qt.transparent]])
 
-        # initialize Scale value text
-        # self.enable_scale_text = True
-
 
         # initialize Main value text
         self.enable_value_text = False
@@ -218,10 +191,7 @@ class AnalogGauge(QWidget):
         # necessary for resize
         self.setMouseTracking(False)
 
-        # QTimer sorgt für neu Darstellung alle X ms
-        # evtl performance hier verbessern mit self.update() und self.use_timer_event = False
-        # todo: self.update als default ohne ueberpruefung, ob self.use_timer_event gesetzt ist oder nicht
-        # Timer startet alle 10ms das event paintEvent
+        
         if self.use_timer_event:
             timer = QTimer(self)
             timer.timeout.connect(self.update)
@@ -294,7 +264,7 @@ class AnalogGauge(QWidget):
         self.valueChanged.emit(int(value))
         # print(self.value)
 
-        # ohne timer: aktiviere self.update()
+        
         if not self.use_timer_event:
             self.update()
 
@@ -552,7 +522,7 @@ class AnalogGauge(QWidget):
             if not self.scale_polygon_colors == None:
                 painter_filled_polygon = QPainter(self)
                 painter_filled_polygon.setRenderHint(QPainter.Antialiasing)
-                # Koordinatenursprung in die Mitte der Flaeche legen
+                
                 painter_filled_polygon.translate(self.width() / 2, self.height() / 2)
 
                 painter_filled_polygon.setPen(Qt.NoPen)
@@ -592,7 +562,7 @@ class AnalogGauge(QWidget):
             my_painter = QPainter(self)
 
             my_painter.setRenderHint(QPainter.Antialiasing)
-            # Koordinatenursprung in die Mitte der Flaeche legen
+            
 
             w = self.width()
             h = self.height()
@@ -608,7 +578,7 @@ class AnalogGauge(QWidget):
         if self.type == 'Radial':
             my_painter = QPainter(self)
             my_painter.setRenderHint(QPainter.Antialiasing)
-            # Koordinatenursprung in die Mitte der Flaeche legen
+            
             my_painter.translate(self.width() / 2, self.height() / 2)
 
             # my_painter.setPen(Qt.NoPen)
@@ -630,7 +600,7 @@ class AnalogGauge(QWidget):
 
         if self.type == 'Bar':
             painter = QPainter(self)
-            # painter.setRenderHint(QPainter.HighQualityAntialiasing)
+            
             painter.setRenderHint(QPainter.Antialiasing)
 
             font = QFont(self.scale_fontname, self.scale_fontsize)
@@ -656,7 +626,7 @@ class AnalogGauge(QWidget):
             # painter.setRenderHint(QPainter.HighQualityAntialiasing)
             painter.setRenderHint(QPainter.Antialiasing)
 
-            # Koordinatenursprung in die Mitte der Flaeche legen
+            
             painter.translate(self.width() / 2, self.height() / 2)
             # painter.save()
             font = QFont(self.scale_fontname, self.scale_fontsize)
@@ -692,7 +662,7 @@ class AnalogGauge(QWidget):
             my_painter = QPainter(self)
 
             my_painter.setRenderHint(QPainter.Antialiasing)
-            # Koordinatenursprung in die Mitte der Flaeche legen
+            
 
             w = self.width()
             h = self.height()
@@ -710,7 +680,7 @@ class AnalogGauge(QWidget):
             my_painter = QPainter(self)
 
             my_painter.setRenderHint(QPainter.Antialiasing)
-            # Koordinatenursprung in die Mitte der Flaeche legen
+            
             my_painter.translate(self.width() / 2, self.height() / 2)
 
             my_painter.setPen(Qt.black)
@@ -727,7 +697,7 @@ class AnalogGauge(QWidget):
         # painter.setRenderHint(QPainter.HighQualityAntialiasing)
         painter.setRenderHint(QPainter.Antialiasing)
 
-        # Koordinatenursprung in die Mitte der Flaeche legen
+        
         painter.translate(self.width() / 2, self.height() / 2)
         # painter.save()
         # xShadow = 3.0
@@ -749,9 +719,6 @@ class AnalogGauge(QWidget):
         h = fm.height()
         painter.setFont(QFont(self.value_fontname, self.value_fontsize))
 
-        # Mitte zwischen Skalenstart und Skalenende:
-        # Skalenende = Skalenanfang - 360 + Skalenlaenge
-        # Skalenmitte = (Skalenende - Skalenanfang) / 2 + Skalenanfang
         angle_end = float(self.scale_angle_start_value + self.scale_angle_size - 360)
         angle = (angle_end - self.scale_angle_start_value) / 2 + self.scale_angle_start_value
 
@@ -767,7 +734,7 @@ class AnalogGauge(QWidget):
         # painter.setRenderHint(QtGui.QPainter.HighQualityAntialiasing)
         painter.setRenderHint(QPainter.Antialiasing)
 
-        # Koordinatenursprung in die Mitte der Flaeche legen
+        
         painter.translate(self.width() / 2, self.height() / 2)
         painter.setPen(Qt.NoPen)
         # painter.setPen(Qt.NoPen)
@@ -814,10 +781,7 @@ class AnalogGauge(QWidget):
         # print("resizeEvent")
 
     def paintEvent(self, event):
-        # Main Drawing Event:
-        # Will be executed on every change
-        # vgl http://doc.qt.io/qt-4.8/qt-demos-affine-xform-cpp.html
-        # print("event", event)
+        
 
         # colored pie area
         if self.enable_filled_Polygon:
@@ -873,8 +837,7 @@ class AnalogGauge(QWidget):
         x, y = event.x() - (self.width() / 2), event.y() - (self.height() / 2)
         if not x == 0:
             angle = math.atan2(y, x) / math.pi * 180
-            # winkellaenge der anzeige immer positiv 0 - 360deg
-            # min wert + umskalierter wert
+            
             value = (float(math.fmod(angle - self.scale_angle_start_value + 720, 360)) / \
                      (float(self.scale_angle_size) / float(self.value_max - self.value_min))) + self.value_min
             temp = value
@@ -884,7 +847,7 @@ class AnalogGauge(QWidget):
                     value <= \
                     (self.value + (self.value_max - self.value_min) * self.value_needle_snapzone):
                 self.NeedleColor = self.NeedleColorDrag
-                # todo: evtl ueberpruefen
+                
                 #
                 state = 9
                 # if value >= self.value_max and self.last_value < (self.value_max - self.value_min) / 2:
@@ -928,9 +891,4 @@ class AnalogGauge(QWidget):
     #
     #     return polygon
 
-################################################################################################
-# DEMO Routine
-# required: analoggaugewidget_demo.ui
-# compile analoggaugewidget_demo.ui -> analoggaugewidget_demo_ui.py
-# show a lot of variables and possibilities formodification
-################################################################################################
+
